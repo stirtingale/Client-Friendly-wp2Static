@@ -6,8 +6,8 @@
 # USER VARIABLES 
 # configure to match your production environment
 
-wordpress_directory="~/public_html"
-mu_plugins_directory="~/public_html/wp-content/mu-plugins"
+wordpress_directory="/home/www/html/menasp/wp"
+mu_plugins_directory="/home/www/html/menasp/app/mu-plugins"
 
 # SCRIPT VARIABLES
 

@@ -12,7 +12,6 @@ This is a rough first pass on the plug in. Follow for future updates.
 
 ![PluginDeployment](https://i.imgur.com/RA2g7h3.jpg)
 
-
 ## Tech/framework used
 
 <b>Built with</b>
@@ -20,6 +19,11 @@ This is a rough first pass on the plug in. Follow for future updates.
 -- Basic admin page 
 -- Simple ajax script to check status
 - Bash Script
+
+## Requirements
+
+- [wp-cli](https://github.com/wp-cli/wp-cli)
+- [wp2static](https://github.com/WP2Static/wp2static)
 
 ## Installation
 
