@@ -10,7 +10,7 @@ This is a rough first pass on the plug in. Follow for future updates.
  
 ## Screenshots
 
-[PluginDeployment](https://i.imgur.com/RA2g7h3.jpg)
+![PluginDeployment](https://i.imgur.com/RA2g7h3.jpg)
 
 
 ## Tech/framework used
