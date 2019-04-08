@@ -3,6 +3,9 @@
 # wp2static pretty deployment script
 #
 
+# Set PATH environment variable
+export PATH="/usr/local/bin:/usr/bin:/bin"
+
 # USER VARIABLES 
 # configure to match your production environment
 
@@ -35,8 +38,8 @@ if [[ -f $runscript ]]; then
 	echo "Starting Deployment" | adddate >> $log
 
 	# DEPLOY
-	wp wp2static generate --path="${wordpress_directory}" --allow-root | adddate >> $log
-	wp wp2static deploy --path="${wordpress_directory}" --allow-root | adddate >> $log
+	/usr/local/bin/wp wp2static generate --path="${wordpress_directory}" --allow-root | adddate >> $log
+	/usr/local/bin/wp wp2static deploy --path="${wordpress_directory}" --allow-root | adddate >> $log
     
     # Write to log
 	echo "Deployment Complete" | adddate >> $log
