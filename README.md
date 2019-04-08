@@ -26,14 +26,21 @@ This is a rough first pass on the plug in. Follow for future updates.
 The plug in works in two steps
 
 - Wordpress install
+
 -- Download this repo and copy the folder to your wp-content directory. ( e.g. domain.tld/wp-content/mu-plugins/static-deployment )
+
 -- Add deploy.php the load.php in your mu-plugins directory ( e.g. require WPMU_PLUGIN_DIR.'/static-deployment/deploy.php'; ).
+
 -- Modify the *deploy.php* file to include your username ($showforusername)
+
 -- Modify the *deploy_button_admin_page* function to include text for your client.
 
 - Bash / Cron Install
+
 -- Move the 'deploy.sh' out of your mu-plugins directory to your hosting root (or somewhere private)
+
 -- Update the deploy.sh to have the correct path for Wordpress and the mu-plugin directory. 
+
 -- Create a cron to run the deploy script every minute (or 5, 10, 15 minutes depending on how patient your client is). e.g. ( */2 * * * * bash deploy.sh >/dev/null 2>&1 )
 
 
