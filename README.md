@@ -48,6 +48,17 @@ The plug in works in two steps
 - Create a cron to run the deploy script every minute (or 5, 10, 15 minutes depending on how patient your client is). e.g. ( */2 * * * * bash deploy.sh >/dev/null 2>&1 )
 
 
+3) Enabling autodeploy.
+
+If you wish to auto-deploy on schedule posts you need to setup Wordpress to run off a [real cron job](https://krystal.help/wordpress/how-to-disable-the-word-press-cron-job-and-set-it-up-in-c-panel)
+
+Make sure you include the user/pass if the sub-domain is password protected.
+
+```/usr/bin/curl -s -u USER:SECRET -o /dev/null -L https://admin.domain.tld/wp-cron.php?doing_wp_cron```
+
+Then tick 'auto deploy' in the plugin settings. 
+
+
 ## How it works
 
 The plugin works by creating a lockfile when the client is ready to deploy.
