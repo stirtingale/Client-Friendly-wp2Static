@@ -50,13 +50,13 @@ The plug in works in two steps
 
 3) Enabling autodeploy.
 
-If you wish to auto-deploy on schedule posts you need to setup Wordpress to run off a [real cron job](https://krystal.help/wordpress/how-to-disable-the-word-press-cron-job-and-set-it-up-in-c-panel)
+- If you wish to auto-deploy on schedule posts you need to setup Wordpress to run off a [real cron job](https://krystal.help/wordpress/how-to-disable-the-word-press-cron-job-and-set-it-up-in-c-panel)
 
-Make sure you include the user/pass if the sub-domain is password protected.
+- Make sure you include the user/pass if the sub-domain is password protected.
 
-```/usr/bin/curl -s -u USER:SECRET -o /dev/null -L https://admin.domain.tld/wp-cron.php?doing_wp_cron```
+- ```/usr/bin/curl -s -u USER:SECRET -o /dev/null -L https://admin.domain.tld/wp-cron.php?doing_wp_cron```
 
-Then tick 'auto deploy' in the plugin settings. 
+- Then tick 'auto deploy' in the plugin settings. 
 
 
 ## How it works
