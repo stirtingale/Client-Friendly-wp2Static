@@ -93,8 +93,8 @@ function deploy_button_admin_page() {
 	echo '<p>Automatically deploy the site when Wordpress publishes a scheduled post.</p>';
 
 	if ( isset($_POST['autodeploysitestatus']) && check_admin_referer('autodeploysitestatusnonce')) {
-    update_option('autodeploysitestatus', $_POST['autodeploysitestatus']);
-	echo '<div class="notice notice-success updated fade"><p>Status updated</p></div>';
+	    update_option('autodeploysitestatus', $_POST['autodeploysitestatus']);
+		echo '<div class="notice notice-success updated fade"><p>Status updated</p></div>';
 	}
 	echo '<form action="admin.php?page=deploy-site" method="post">';
 		wp_nonce_field('autodeploysitestatusnonce');
