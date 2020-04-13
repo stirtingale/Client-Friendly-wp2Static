@@ -100,7 +100,7 @@ function deploy_button_admin_page() {
 		wp_nonce_field('autodeploysitestatusnonce');
 	   	echo '<input class="postbox" type="checkbox" id="autodeploysitestatus" name="autodeploysitestatus" value="1" ' . checked(1, get_option('autodeploysitestatus'), false) . '/>'; 
 		echo '<label for="autodeploysitestatus">Enable autodeploy</label>';
-		echo '<input type="hidden" value="true" name="update_email_text" />';
+		echo '<input type="hidden" value="true" name="autodeploysitestatus" />';
 		submit_button('Save Settings');
 	echo '</form>';
 	echo '</div></div>';
