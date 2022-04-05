@@ -1,13 +1,15 @@
-## Project title
-Client Friendly wp2Static
+# Client Friendly wp2Static
 
 ## Motivation
-wp2Static is fantastic for a number of use cases. However, it is not client friendly.
+
+wp2Static is fantastic for a number of use cases, but it is not client friendly.
 Using it in a production environment means clients must be able to deploy safely without breaking the deployment by changing keys or advanced settings. 
 
-## Build status
-This is a rough first pass on the plug in. Follow for future updates. 
- 
+## What to use? wp2static vs statichtmloutput
+
+There are a number of versions now of the orginal wp2Static. This plugin should work with all of them as it is deploying via WP-CLI.
+You just need to ensure that you have setup the correct .sh script for your deployment as older version of wp2Static uses 'wp wp2static' while later versions use 'wp statichtmloutput'.  
+
 ## Screenshots
 
 ![PluginDeployment](https://i.imgur.com/RA2g7h3.jpg)
@@ -16,9 +18,10 @@ This is a rough first pass on the plug in. Follow for future updates.
 
 <b>Built with</b>
 - Wordpress MU Plugin
--- Basic admin page 
--- Simple ajax script to check status
-- Bash Script
+-- Barebones admin page 
+-- Basic rollback support for Netlify
+-- Simple ajax script to check pull WP ClI output into WP backend
+- Bash Script(s)
 
 ## Requirements
 
@@ -31,17 +34,15 @@ The plug in works in two steps
 
 1) Wordpress install
 
-- Download this repo and copy the folder to your wp-content directory. ( e.g. domain.tld/wp-content/mu-plugins/static-deployment )
+- Download this repo and copy the folder to your wp-content must-use plugin directory. ( e.g. public_html/wp-content/mu-plugins/static-deployment )
 
 - Add deploy.php the load.php in your mu-plugins directory ( e.g. require WPMU_PLUGIN_DIR.'/static-deployment/deploy.php'; ).
 
-- Modify the *deploy.php* file to include your username ($showforusername)
-
-- Modify the *deploy_button_admin_page* function to include text for your client.
+- Add Netlify keys and primary username to your wp-config.php file. (If not set rollback will not be visible). See demo wp-config.php
 
 2) Bash / Cron Install
 
-- Move the 'deploy.sh' out of your mu-plugins directory to your hosting root (or somewhere private)
+- Chose the right bash script for your wp2Static version. Move the 'deploy.sh' out of your mu-plugins directory to your hosting root or private directory. This should not be public.
 
 - Update the deploy.sh to have the correct path for Wordpress and the mu-plugin directory. 
 

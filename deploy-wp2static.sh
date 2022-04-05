@@ -9,8 +9,8 @@ export PATH="/usr/local/bin:/usr/bin:/bin"
 # USER VARIABLES 
 # configure to match your production environment
 
-wordpress_directory="/home/www/html/menasp/wp"
-mu_plugins_directory="/home/www/html/menasp/app/mu-plugins"
+wordpress_directory="~/public_html/wp"
+mu_plugins_directory="~/public_html/app/mu-plugins"
 
 # SCRIPT VARIABLES
 
