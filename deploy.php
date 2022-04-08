@@ -100,13 +100,42 @@ function deploy_button_admin_page() {
   	// Add text your want your client to see here.
 	echo '<p>For security and speed the admin area is isolated from the live site.</p>';
 	echo '<p>To make changes you have made here visible on the live site you will need to <em>push</em> the site to the production server. Click deploy to start the process. The script will take a few minutes to complete.</p>';
+  
+	echo '<div class="postbox"><div class="inside" style="padding: 0 0.9rem 0 0.9rem;margin: 0;">';
+	echo '<h3>Automatic Deployment</h3>';
+	echo '<p>Automatically deploy the site when Wordpress publishes a scheduled post.</p>';
+	if ( isset($_POST['autodeploysitestatus_test']) && check_admin_referer('autodeploysitestatusnonce')) {
+		if(!empty($_POST['autodeploysitestatus'])){
+			update_option('autodeploysitestatus', 1);
+		} else {
+			update_option('autodeploysitestatus', null);
+		}
+		echo '<div class="notice notice-success updated fade"><p>Status updated</p></div>';
+	}
+	echo '<form action="admin.php?page=deploy-site" method="post">';
+	echo "<tr><th scope='row'><label for='autodeploysitestatus' style='min-width:200px;display: inline-block;'>Deploy on Scheduled Post</label></th><td>";
+	wp_nonce_field('autodeploysitestatusnonce');
+	if(get_option('autodeploysitestatus')){
+		echo '<input class="postbox" type="checkbox" id="autodeploysitestatus" name="autodeploysitestatus[]" checked/>'; 
+	} else {
+		echo '<input class="postbox" type="checkbox" id="autodeploysitestatus" name="autodeploysitestatus[]"/>'; 
+	}
+	echo '<input type="hidden" name="autodeploysitestatus_test" />';
+	submit_button('Save Settings');
+	echo "</td></tr></form>";
 
+	echo '</div></div>';
+
+	echo '<div class="postbox"><div class="inside" style="padding: 0 0.9rem 0 0.9rem;margin: 0;">';
+	echo '<h3>Manual Deploy</h3>';
+	echo '<p>Immediately deploy the site. The process will take several minutes.</p>';
 	echo '<form action="admin.php?page=deploy-site" method="post">';
 	// Add NONCE to stop any nonsense. 
 	wp_nonce_field('deploy_button_clicked');
 		echo '<input type="hidden" value="true" name="deploy_button" />';
-		submit_button('Start Deployment');
+		submit_button('Deploy');
 	echo '</form>';
+	echo '</div></div>';
 
 	if(defined('NETLIFY_ID')&&defined('NETLIFY_TOKEN')){
 
@@ -160,32 +189,35 @@ function deploy_button_admin_page() {
 		
 		if($result){
 
-			
+			echo '<div class="postbox"><div class="inside" style="padding: 0 0.9rem 0 0.9rem;margin: 0;">';
+			echo '<h3>Rollback</h3>';
+			echo '<p>Immediately rollback the public site to any past deployment.</p>';
 			echo '<form action="admin.php?page=deploy-site" method="post">';
 			// Add NONCE to stop any nonsense. 
-				wp_nonce_field('rollback_start');
+			wp_nonce_field('rollback_start');
 
-				echo "<tr><th scope='row'><label for='rolbackid' style='min-width: 100px;display: inline-block;'>Deployments</label></th><td>";
-				
-				echo '<input type="hidden" value="true" name="rolbackid" />';
-				echo "<select name='rolbackid' id='rolbackid'>";
-				$result = json_decode($result,true);
-				foreach ($result as $r){
-					echo "\n";
-					// print_r($r);
-					$r_id = $r['id'];
-					$r_title = $r['published_at'];
-					// echo $r_id;
-					$r_title = date("Y-m-d h:ia", strtotime($r_title));
-					if($deploy_id==$r_id){
-						echo "<option value='{$r_id}' style='font-weight: bold;'>➦ {$r_title}</option>";
-					} else {
-						echo "<option value='{$r_id}'>{$r_title}</option>";
-					}
+			echo "<tr><th scope='row'><label for='rolbackid' style='min-width:150px;display: inline-block;'>Deployments</label></th><td>";
+			
+			echo '<input type="hidden" value="true" name="rolbackid" />';
+			echo "<select name='rolbackid' id='rolbackid'>";
+			$result = json_decode($result,true);
+			foreach ($result as $r){
+				echo "\n";
+				// print_r($r);
+				$r_id = $r['id'];
+				$r_title = $r['published_at'];
+				// echo $r_id;
+				$r_title = date("Y-m-d h:ia", strtotime($r_title));
+				if($deploy_id==$r_id){
+					echo "<option value='{$r_id}' style='font-weight: bold;'>➦ {$r_title}</option>";
+				} else {
+					echo "<option value='{$r_id}'>{$r_title}</option>";
 				}
-				echo "</select></td></tr>";
-				submit_button('Rollback');
+			}
+			echo "</select></td></tr>";
+			submit_button('Rollback');
 			echo '</form>';
+			echo '</div></div>';
 		
 		
 		}
@@ -301,4 +333,19 @@ function deploy_button_action() {
 
 }  
 
-?>
+// HOOK INTO SCHDULED POSTS
+// ###
+// publish_future_post is an action triggered when a post is transitioned from 'future' to 'publish' status
+// ###
+
+add_action( 'publish_future_post', 'auto_deploy_on_scheduled_posts' );
+
+function auto_deploy_on_scheduled_posts( $post_id ) {
+
+	// only trigger if user has enabled autodeployment
+	if(get_option('autodeploysitestatus')){
+		// to autodeploy we simply have the plugin write the lockfile so the cronjob can pick it up and auto-deploy using WP-CLI
+		write_lock();
+	}
+
+}
